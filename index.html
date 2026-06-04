@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>우리 반 시상식</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e1f; --panel:rgba(255,255,255,.045); --panel2:rgba(255,255,255,.07);
+    --gold:#f7d774; --gold2:#e6b84a; --gold-soft:rgba(247,215,116,.14);
+    --text:#f3efe6; --muted:#a7adc9; --line:rgba(247,215,116,.20);
+    --good:#5ee0a0; --danger:#ff7a7a; --accent:#b08bff;
+    --shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Gowun Dodum',system-ui,sans-serif;
+    color:var(--text); min-height:100vh;
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(247,215,116,.10), transparent 60%),
+      radial-gradient(800px 520px at 100% 0%, rgba(176,139,255,.10), transparent 55%),
+      radial-gradient(700px 600px at 50% 120%, rgba(247,215,116,.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+  }
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.04;z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:22px 18px 80px}
+  header.top{text-align:center;padding:26px 0 8px}
+  .crown{font-size:34px;filter:drop-shadow(0 6px 14px rgba(247,215,116,.35))}
+  h1.title{font-family:'Black Han Sans',sans-serif;font-weight:400;letter-spacing:1px;
+    font-size:clamp(34px,8vw,58px);margin:6px 0 2px;line-height:1.05;
+    background:linear-gradient(180deg,#fff7df,var(--gold) 55%,var(--gold2));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    text-shadow:0 2px 0 rgba(0,0,0,.15)}
+  .subtitle{color:var(--muted);font-size:14px;letter-spacing:3px;text-transform:uppercase}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;
+    padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
+  .card+.card{margin-top:16px}
+  .muted{color:var(--muted)} .small{font-size:13px}
+  .center{text-align:center}
+  .hidden{display:none!important}
+
+  .btn{font-family:inherit;cursor:pointer;border:0;border-radius:14px;padding:14px 18px;
+    font-size:16px;font-weight:700;letter-spacing:.5px;transition:transform .12s ease,box-shadow .2s ease,filter .2s;}
+  .btn:active{transform:translateY(1px)}
+  .btn-gold{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#2a1f00;
+    box-shadow:0 10px 26px rgba(247,215,116,.30)}
+  .btn-gold:hover{filter:brightness(1.06)}
+  .btn-ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+  .btn-danger{background:rgba(255,122,122,.14);color:#ffb4b4;border:1px solid rgba(255,122,122,.35)}
+  .btn-sm{padding:8px 12px;font-size:13px;border-radius:10px}
+  .btn.full{width:100%}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .row.between{justify-content:space-between;align-items:center}
+
+  input,textarea,select{font-family:inherit;width:100%;background:rgba(0,0,0,.25);
+    border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 14px;font-size:15px;outline:none}
+  input:focus,textarea:focus{border-color:var(--gold)}
+  label.fld{display:block;margin:12px 0 6px;color:var(--muted);font-size:13px;letter-spacing:.5px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr}}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);
+    border:1px solid var(--line);color:var(--gold);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
+
+  /* 홈 진입 버튼 */
+  .home-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  @media(max-width:560px){.home-grid{grid-template-columns:1fr}}
+  .enter{border:1px solid var(--line);border-radius:18px;padding:26px 20px;text-align:center;cursor:pointer;
+    background:var(--panel);transition:transform .15s,border-color .2s,background .2s}
+  .enter:hover{transform:translateY(-3px);border-color:var(--gold);background:var(--panel2)}
+  .enter .ic{font-size:40px} .enter .t{font-size:20px;font-weight:700;margin-top:8px}
+  .enter .d{color:var(--muted);font-size:13px;margin-top:4px}
+
+  /* 학생 명단 선택 */
+  .name-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:8px}
+  .name-chip{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px 8px;
+    text-align:center;cursor:pointer;font-weight:700;font-size:15px;transition:.15s}
+  .name-chip:hover{border-color:var(--gold);background:var(--panel2)}
+  .name-chip .num{display:block;color:var(--muted);font-size:11px;font-weight:400}
+
+  /* 투표지 카드 */
+  .award-vote{border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;background:var(--panel)}
+  .award-vote h3{margin:0 0 2px;font-size:18px}
+  .award-vote .desc{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+  .opt span{display:block;border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;
+    font-size:14px;cursor:pointer;transition:.12s;background:rgba(0,0,0,.18)}
+  .opt input:checked + span{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#2a1f00;border-color:var(--gold);font-weight:700}
+  .opt .skip{opacity:.8;font-style:italic}
+
+  /* 관리자 탭 */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .tab{padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);
+    cursor:pointer;font-weight:700;font-size:14px;color:var(--muted)}
+  .tab.active{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#2a1f00;border-color:var(--gold)}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
+  th{color:var(--muted);font-weight:700;font-size:12px;letter-spacing:.5px}
+  .listitem{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);
+    border-radius:12px;margin-bottom:8px;background:var(--panel)}
+  .listitem .grow{flex:1}
+  .listitem b{font-size:15px} .listitem .sub{color:var(--muted);font-size:12px}
+
+  /* 결과 막대 */
+  .bar-row{display:flex;align-items:center;gap:10px;margin:6px 0}
+  .bar-row .nm{width:90px;flex:0 0 auto;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-bg{flex:1;height:14px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:999px}
+  .bar-row .vt{width:42px;text-align:right;color:var(--muted);font-size:12px}
+  .win-tag{color:#2a1f00;background:var(--gold);border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700;margin-left:6px}
+
+  .result-card{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;background:var(--panel)}
+  .result-card .awn{font-weight:700;font-size:16px}
+  .result-card .winner{font-size:20px;color:var(--gold);font-weight:700;margin-top:2px}
+  .result-card .note{color:var(--muted);font-size:12.5px;margin-top:8px;line-height:1.5;
+    border-top:1px dashed rgba(255,255,255,.1);padding-top:8px}
+  .nores{color:var(--muted);font-style:italic}
+
+  /* 시상식 모드 */
+  #ceremony{position:fixed;inset:0;z-index:50;background:
+    radial-gradient(1000px 600px at 50% -10%, rgba(247,215,116,.16), transparent 60%), #070912;
+    display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+  #ceremony.show{display:flex}
+  #cf-canvas{position:fixed;inset:0;pointer-events:none;z-index:60}
+  .cer-step{color:var(--muted);letter-spacing:3px;text-transform:uppercase;font-size:13px}
+  .cer-award{font-family:'Black Han Sans',sans-serif;font-size:clamp(30px,7vw,56px);margin:14px 0;
+    background:linear-gradient(180deg,#fff7df,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .cer-desc{color:var(--muted);max-width:520px;margin:0 auto 26px}
+  .cer-reveal{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .cer-winner{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(44px,11vw,86px);
+    color:#fff;text-shadow:0 0 30px rgba(247,215,116,.5);animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+  .cer-votes{color:var(--gold);margin-top:8px;font-size:15px}
+  @keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+  .cer-bar{position:fixed;bottom:26px;left:0;right:0;display:flex;gap:12px;justify-content:center;align-items:center;z-index:61}
+  .cer-x{position:fixed;top:18px;right:18px;z-index:61}
+  .cer-count{position:fixed;top:20px;left:20px;color:var(--muted);font-size:13px;z-index:61}
+
+  /* 토스트 */
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:#1a1f3a;border:1px solid var(--line);color:var(--text);padding:12px 18px;border-radius:12px;
+    box-shadow:var(--shadow);opacity:0;transition:.25s;z-index:80;max-width:90vw;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast.err{border-color:rgba(255,122,122,.6)}
+
+  .divider{height:1px;background:rgba(255,255,255,.08);margin:16px 0}
+  .back-link{color:var(--muted);cursor:pointer;font-size:14px;display:inline-flex;gap:6px;align-items:center}
+  .back-link:hover{color:var(--gold)}
+  code.kbd{background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px}
+  @media print{
+    body{background:#fff;color:#000}
+    .wrap *{visibility:hidden}
+    #print-area,#print-area *{visibility:visible}
+    #print-area{position:absolute;left:0;top:0;width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="crown">👑</div>
+    <h1 class="title" id="app-title">우리 반 시상식</h1>
+    <div class="subtitle">Class Awards</div>
+  </header>
+
+  <!-- 설정 경고 -->
+  <section id="warn" class="card hidden">
+    <h2>⚙️ 먼저 Supabase 연결이 필요해요</h2>
+    <p class="muted small">이 파일 상단의 <code class="kbd">SUPABASE_URL</code> 과 <code class="kbd">SUPABASE_ANON_KEY</code> 를
+    내 Supabase 프로젝트 값으로 바꾼 뒤, <code class="kbd">supabase_schema.sql</code> 을 SQL Editor에서 실행하세요.</p>
+  </section>
+
+  <!-- 홈 -->
+  <section id="view-home" class="view">
+    <div class="card center">
+      <p class="muted">한 해 동안 함께한 친구들에게, 마음을 담아 한 표.</p>
+      <div class="home-grid">
+        <div class="enter" onclick="goVote()">
+          <div class="ic">🗳️</div><div class="t">투표하러 왔어요</div>
+          <div class="d">학생용 · 상마다 친구 한 명 선택</div>
+        </div>
+        <div class="enter" onclick="goAdmin()">
+          <div class="ic">🎓</div><div class="t">선생님 (관리자)</div>
+          <div class="d">상·명단 설정 · 결과 · 시상식 진행</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 학생 투표 -->
+  <section id="view-vote" class="view hidden">
+    <div id="vote-body"></div>
+  </section>
+
+  <!-- 관리자 -->
+  <section id="view-admin" class="view hidden">
+    <div id="admin-gate" class="card hidden"></div>
+    <div id="admin-body" class="hidden">
+      <div class="tabs">
+        <div class="tab active" data-tab="settings" onclick="switchTab('settings')">설정</div>
+        <div class="tab" data-tab="awards" onclick="switchTab('awards')">상 관리</div>
+        <div class="tab" data-tab="students" onclick="switchTab('students')">학생 관리</div>
+        <div class="tab" data-tab="results" onclick="switchTab('results')">결과</div>
+      </div>
+      <div id="tab-content"></div>
+      <div class="divider"></div>
+      <span class="back-link" onclick="goHome()">← 첫 화면으로</span>
+    </div>
+  </section>
+</div>
+
+<!-- 시상식 모드 -->
+<div id="ceremony">
+  <div class="cer-count" id="cer-count"></div>
+  <button class="btn btn-ghost btn-sm cer-x" onclick="closeCeremony()">✕ 닫기</button>
+  <div class="cer-step" id="cer-step"></div>
+  <div class="cer-award" id="cer-award"></div>
+  <div class="cer-desc" id="cer-desc"></div>
+  <div class="cer-reveal" id="cer-reveal"></div>
+  <div class="cer-bar">
+    <button class="btn btn-ghost" id="cer-prev" onclick="cerPrev()">← 이전</button>
+    <button class="btn btn-gold" id="cer-action" onclick="cerAction()">두구두구… 공개!</button>
+    <button class="btn btn-ghost" id="cer-next" onclick="cerNext()">다음 →</button>
+  </div>
+</div>
+<canvas id="cf-canvas"></canvas>
+<div id="toast"></div>
+
+<!-- 인쇄 영역 -->
+<div id="print-area" style="display:none"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===== APP SCRIPT START =====
+
+/* ─────────────────────────────────────────────
+   1) Supabase 연결 — 아래 두 값을 내 프로젝트 값으로 교체하세요
+   ───────────────────────────────────────────── */
+const SUPABASE_URL = "여기에_프로젝트_URL_붙여넣기";
+const SUPABASE_ANON_KEY = "여기에_anon_key_붙여넣기";
+
+const CONFIGURED = !SUPABASE_URL.includes("여기에") && !SUPABASE_ANON_KEY.includes("여기에");
+let db = null;
+if (CONFIGURED) { db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
+
+/* ─────────────────────────────────────────────
+   2) 테이블 이름 — 기존 프로젝트와 안 겹치게 'ceremony_' 접두사 사용
+   (이름을 바꾸려면 여기와 supabase_schema.sql 양쪽을 똑같이 수정)
+   ───────────────────────────────────────────── */
+const TABLES = {
+  awards:   "ceremony_awards",
+  students: "ceremony_students",
+  votes:    "ceremony_votes",
+  settings: "ceremony_settings",
+};
+
+/* 기본 상 13개 (관리자 > 상 관리에서 한 번에 불러올 수 있음) */
+const DEFAULT_AWARDS = [
+  ["춤신춤왕","우리 반에서 춤을 가장 잘 추는 친구"],
+  ["1인1역 척척왕","자기 1인1역을 가장 성실하게 해낸 친구"],
+  ["1인다역 도움왕","자기 역할은 물론 다른 친구의 1인1역까지 도와준 친구"],
+  ["선행왕","친구들을 위해 착한 일을 많이 한 친구"],
+  ["수업 초롱초롱상","수업 시간에 집중을 가장 잘한 친구"],
+  ["모둠활동 협동왕","모둠활동에서 협동을 가장 잘한 친구"],
+  ["개근왕","지각 없이 가장 성실하게 등교한 친구"],
+  ["개그맨상","우리 반을 가장 많이 웃게 해준 친구"],
+  ["성실왕","무엇이든 꾸준하고 성실하게 임한 친구"],
+  ["추억메이커상","학급 행사를 주도적으로 이끌어 추억을 만들어준 친구"],
+  ["아이디어뱅크상","학급회의에서 좋은 의견을 가장 많이 낸 친구"],
+  ["분위기 메이커상","수업 분위기를 좋게 만들어준 친구"],
+  ["예의왕","가장 예의 바르고 배려심 깊은 친구"],
+];
+
+/* 상태 */
+const state = {
+  settings:null, awards:[], students:[], votes:[],
+  voter:null, adminAuthed:false, lastResult:null, cerIndex:0, cerRevealed:false
+};
+
+/* ── 유틸 ── */
+const $ = (id)=>document.getElementById(id);
+const esc = (s)=> (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(msg, isErr){ const t=$('toast'); t.textContent=msg; t.className='show'+(isErr?' err':''); setTimeout(()=>t.className=t.className.replace('show',''),2600); }
+function show(view){ ['view-home','view-vote','view-admin'].forEach(v=>$(v).classList.toggle('hidden', v!==view)); window.scrollTo(0,0); }
+
+/* ── 데이터 로드 ── */
+async function loadAll(){
+  if(!CONFIGURED) return;
+  const [s,a,st,v] = await Promise.all([
+    db.from(TABLES.settings).select('*').eq('id',1).single(),
+    db.from(TABLES.awards).select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:true}),
+    db.from(TABLES.students).select('*').order('number',{ascending:true,nullsFirst:false}).order('created_at',{ascending:true}),
+    db.from(TABLES.votes).select('*'),
+  ]);
+  if(s.data) state.settings=s.data;
+  state.awards = a.data||[];
+  state.students = st.data||[];
+  state.votes = v.data||[];
+  if(state.settings && state.settings.class_name){ $('app-title').textContent = state.settings.class_name + ' 시상식'; }
+}
+async function reloadVotes(){ const v=await db.from(TABLES.votes).select('*'); state.votes=v.data||[]; }
+
+/* ─────────────────────────────────────────────
+   네비게이션
+   ───────────────────────────────────────────── */
+function goHome(){ show('view-home'); }
+
+async function goVote(){
+  if(!CONFIGURED){ $('warn').classList.remove('hidden'); return; }
+  await loadAll();
+  show('view-vote');
+  renderVoteEntry();
+}
+
+async function goAdmin(){
+  if(!CONFIGURED){ $('warn').classList.remove('hidden'); return; }
+  await loadAll();
+  show('view-admin');
+  const pin = state.settings && state.settings.admin_pin ? state.settings.admin_pin : '';
+  if(!pin || state.adminAuthed){ state.adminAuthed=true; openAdmin(); }
+  else { renderGate(); }
+}
+window.goHome=goHome; window.goVote=goVote; window.goAdmin=goAdmin;
+
+/* ── 관리자 PIN ── */
+function renderGate(){
+  $('admin-gate').classList.remove('hidden');
+  $('admin-body').classList.add('hidden');
+  $('admin-gate').innerHTML = `
+    <h2>🔒 관리자 확인</h2>
+    <p class="muted small">선생님 PIN을 입력하세요.</p>
+    <label class="fld">PIN</label>
+    <input id="pin-input" type="password" inputmode="numeric" placeholder="****" />
+    <div class="row" style="margin-top:14px">
+      <button class="btn btn-gold grow full" onclick="checkPin()">들어가기</button>
+    </div>
+    <div style="margin-top:10px"><span class="back-link" onclick="goHome()">← 첫 화면으로</span></div>`;
+  setTimeout(()=>$('pin-input') && $('pin-input').focus(),100);
+}
+function checkPin(){
+  const v = ($('pin-input').value||'').trim();
+  if(v === (state.settings.admin_pin||'')){ state.adminAuthed=true; openAdmin(); }
+  else toast('PIN이 일치하지 않아요.', true);
+}
+window.checkPin=checkPin;
+
+function openAdmin(){
+  $('admin-gate').classList.add('hidden');
+  $('admin-body').classList.remove('hidden');
+  switchTab('settings');
+}
+
+/* ─────────────────────────────────────────────
+   학생 투표 화면
+   ───────────────────────────────────────────── */
+function renderVoteEntry(){
+  const body=$('vote-body');
+  const s=state.settings;
+  if(!s || !s.voting_open){
+    body.innerHTML = `<div class="card center">
+      <div style="font-size:42px">⏳</div>
+      <h2>아직 투표가 열리지 않았어요</h2>
+      <p class="muted">선생님이 투표를 시작하면 참여할 수 있어요.</p>
+      <button class="btn btn-ghost" onclick="goHome()">← 첫 화면으로</button></div>`;
+    return;
+  }
+  if(state.students.length===0){
+    body.innerHTML = `<div class="card center"><p class="muted">학생 명단이 아직 없어요. 선생님께 알려 주세요.</p>
+      <button class="btn btn-ghost" onclick="goHome()">← 첫 화면으로</button></div>`;
+    return;
+  }
+  // 반 코드가 있으면 먼저 확인
+  if(s.class_code && !state._codeOk){
+    body.innerHTML = `<div class="card">
+      <span class="back-link" onclick="goHome()">← 첫 화면으로</span>
+      <h2 style="margin-top:10px">반 코드 입력</h2>
+      <p class="muted small">선생님이 알려준 반 코드를 입력하세요.</p>
+      <input id="code-input" placeholder="반 코드" />
+      <button class="btn btn-gold full" style="margin-top:12px" onclick="checkCode()">확인</button>
+    </div>`;
+    return;
+  }
+  renderNamePick();
+}
+function checkCode(){
+  const v=($('code-input').value||'').trim();
+  if(v && v===state.settings.class_code){ state._codeOk=true; renderNamePick(); }
+  else toast('반 코드가 달라요.', true);
+}
+window.checkCode=checkCode;
+
+function renderNamePick(){
+  const body=$('vote-body');
+  const chips = state.students.map(st=>`
+    <div class="name-chip" onclick="pickVoter('${st.id}')">
+      ${esc(st.name)}${st.number!=null?`<span class="num">${st.number}번</span>`:''}
+    </div>`).join('');
+  body.innerHTML = `<div class="card">
+    <span class="back-link" onclick="goHome()">← 첫 화면으로</span>
+    <h2 style="margin-top:10px">내 이름을 선택하세요</h2>
+    <p class="muted small">투표는 한 번만 할 수 있어요.</p>
+    <div class="name-grid">${chips}</div>
+  </div>`;
+}
+
+async function pickVoter(id){
+  const st = state.students.find(x=>x.id===id);
+  if(!st) return;
+  // 이미 투표했는지 확인
+  const { data } = await db.from(TABLES.votes).select('id').eq('voter_id', id).limit(1);
+  if(data && data.length){
+    $('vote-body').innerHTML = `<div class="card center">
+      <div style="font-size:42px">✅</div>
+      <h2>${esc(st.name)} 님은 이미 투표했어요</h2>
+      <p class="muted">소중한 한 표 고마워요!</p>
+      <button class="btn btn-ghost" onclick="goHome()">← 첫 화면으로</button></div>`;
+    return;
+  }
+  state.voter = st;
+  renderBallot();
+}
+window.pickVoter=pickVoter;
+
+function renderBallot(){
+  const body=$('vote-body');
+  const me=state.voter;
+  const excludeSelf = state.settings.exclude_self;
+  if(state.awards.length===0){
+    body.innerHTML = `<div class="card center"><p class="muted">상 목록이 아직 없어요. 선생님께 알려 주세요.</p>
+      <button class="btn btn-ghost" onclick="goHome()">← 첫 화면으로</button></div>`;
+    return;
+  }
+  const cards = state.awards.map(a=>{
+    const cands = state.students.filter(s=> excludeSelf ? s.id!==me.id : true);
+    const opts = cands.map(c=>`
+      <label class="opt">
+        <input type="radio" name="aw_${a.id}" value="${c.id}">
+        <span>${esc(c.name)}</span>
+      </label>`).join('');
+    return `<div class="award-vote">
+      <h3>🏆 ${esc(a.name)}</h3>
+      ${a.description?`<div class="desc">${esc(a.description)}</div>`:''}
+      <div class="opts">
+        <label class="opt"><input type="radio" name="aw_${a.id}" value="" checked><span class="skip">선택 안 함</span></label>
+        ${opts}
+      </div>
+    </div>`;
+  }).join('');
+  body.innerHTML = `<div class="card">
+    <div class="row between"><span class="pill">🗳️ ${esc(me.name)} 님의 투표</span></div>
+    <p class="muted small" style="margin-top:10px">각 상마다 가장 어울리는 친구 한 명을 골라 주세요. 잘 모르는 상은 건너뛰어도 돼요.</p>
+    ${cards}
+    <button class="btn btn-gold full" style="margin-top:6px" onclick="submitBallot()">투표 제출하기</button>
+    <p class="muted small center" style="margin-top:10px">제출하면 수정할 수 없어요.</p>
+  </div>`;
+  window.scrollTo(0,0);
+}
+
+async function submitBallot(){
+  const me=state.voter;
+  const rows=[];
+  for(const a of state.awards){
+    const sel = document.querySelector(`input[name="aw_${a.id}"]:checked`);
+    if(sel && sel.value){ rows.push({ voter_id:me.id, award_id:a.id, candidate_id:sel.value }); }
+  }
+  if(rows.length===0){ if(!confirm('아무 상도 선택하지 않았어요. 그래도 제출할까요?')) return; }
+  const { error } = rows.length ? await db.from(TABLES.votes).insert(rows) : {error:null};
+  // 빈 투표여도 "참여 완료"로 남기기 위해 최소 1행 처리가 필요하면 아래 분기 사용
+  if(error){
+    if(String(error.message||'').includes('duplicate')) toast('이미 투표한 기록이 있어요.', true);
+    else toast('제출 중 오류가 났어요. 다시 시도해 주세요.', true);
+    return;
+  }
+  $('vote-body').innerHTML = `<div class="card center">
+    <div style="font-size:48px">🎉</div>
+    <h2>투표 완료!</h2>
+    <p class="muted">${esc(me.name)} 님, 소중한 한 표 고마워요.</p>
+    <button class="btn btn-ghost" onclick="goHome()">← 첫 화면으로</button></div>`;
+  state.voter=null;
+  window.scrollTo(0,0);
+}
+window.submitBallot=submitBallot;
+
+/* ─────────────────────────────────────────────
+   관리자 탭
+   ───────────────────────────────────────────── */
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+  if(name==='settings') renderSettings();
+  if(name==='awards') renderAwards();
+  if(name==='students') renderStudents();
+  if(name==='results') renderResults();
+}
+window.switchTab=switchTab;
+
+/* ── 설정 탭 ── */
+function renderSettings(){
+  const s=state.settings;
+  $('tab-content').innerHTML = `
+  <div class="card">
+    <div class="row between">
+      <h2 style="margin:0">투표 ${s.voting_open?'<span class="pill" style="color:var(--good);border-color:rgba(94,224,160,.4);background:rgba(94,224,160,.12)">진행 중</span>':'<span class="pill" style="color:var(--muted)">닫힘</span>'}</h2>
+      <button class="btn ${s.voting_open?'btn-danger':'btn-gold'} btn-sm" onclick="toggleVoting()">
+        ${s.voting_open?'투표 닫기':'투표 열기'}</button>
+    </div>
+    <p class="muted small" style="margin-top:8px">학생들이 투표할 수 있는 상태인지 결정해요. 투표가 끝나면 닫고 결과를 확인하세요.</p>
+  </div>
+
+  <div class="card">
+    <h2>기본 설정</h2>
+    <div class="grid2">
+      <div><label class="fld">반 이름</label><input id="set-class" value="${esc(s.class_name||'')}" placeholder="예: 3학년 2반"></div>
+      <div><label class="fld">반 코드 (선택)</label><input id="set-code" value="${esc(s.class_code||'')}" placeholder="비우면 코드 없이 입장"></div>
+    </div>
+    <div class="grid2">
+      <div><label class="fld">관리자 PIN (선택)</label><input id="set-pin" value="${esc(s.admin_pin||'')}" placeholder="비우면 PIN 없이 입장"></div>
+      <div><label class="fld">본인에게 투표</label>
+        <select id="set-self">
+          <option value="true" ${s.exclude_self?'selected':''}>금지 (본인 제외)</option>
+          <option value="false" ${!s.exclude_self?'selected':''}>허용</option>
+        </select></div>
+    </div>
+    <button class="btn btn-gold full" style="margin-top:14px" onclick="saveSettings()">설정 저장</button>
+  </div>
+
+  <div class="card">
+    <h2>데이터 / 진행</h2>
+    <div class="row">
+      <button class="btn btn-ghost btn-sm" onclick="refreshAdmin()">🔄 새로고침</button>
+      <button class="btn btn-danger btn-sm" onclick="resetVotes()">🗑️ 투표 결과 초기화</button>
+    </div>
+    <p class="muted small" style="margin-top:10px">초기화는 모든 학생의 투표를 삭제해요. (상·명단은 유지)</p>
+  </div>`;
+}
+async function toggleVoting(){
+  const next = !state.settings.voting_open;
+  const { error } = await db.from(TABLES.settings).update({voting_open:next}).eq('id',1);
+  if(error){ toast('변경 실패', true); return; }
+  state.settings.voting_open=next; renderSettings();
+  toast(next?'투표를 열었어요.':'투표를 닫았어요.');
+}
+async function saveSettings(){
+  const payload={
+    class_name: ($('set-class').value||'').trim()||'우리 반',
+    class_code: ($('set-code').value||'').trim(),
+    admin_pin: ($('set-pin').value||'').trim(),
+    exclude_self: $('set-self').value==='true',
+  };
+  const { error } = await db.from(TABLES.settings).update(payload).eq('id',1);
+  if(error){ toast('저장 실패', true); return; }
+  Object.assign(state.settings, payload);
+  $('app-title').textContent = payload.class_name + ' 시상식';
+  toast('저장했어요.');
+}
+async function refreshAdmin(){ await loadAll(); toast('새로고침 완료'); switchTab(document.querySelector('.tab.active').dataset.tab); }
+async function resetVotes(){
+  if(!confirm('정말 모든 투표 결과를 삭제할까요? 되돌릴 수 없어요.')) return;
+  const { error } = await db.from(TABLES.votes).delete().neq('id','00000000-0000-0000-0000-000000000000');
+  if(error){ toast('초기화 실패', true); return; }
+  state.votes=[]; state.lastResult=null; toast('투표를 초기화했어요.');
+}
+window.toggleVoting=toggleVoting; window.saveSettings=saveSettings; window.refreshAdmin=refreshAdmin; window.resetVotes=resetVotes;
+
+/* ── 상 관리 탭 ── */
+function renderAwards(){
+  const list = state.awards.map((a,i)=>`
+    <div class="listitem">
+      <div class="grow"><b>${esc(a.name)}</b><div class="sub">${esc(a.description||'')}</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="moveAward(${i},-1)" ${i===0?'disabled style=opacity:.4':''}>▲</button>
+      <button class="btn btn-ghost btn-sm" onclick="moveAward(${i},1)" ${i===state.awards.length-1?'disabled style=opacity:.4':''}>▼</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteAward('${a.id}')">삭제</button>
+    </div>`).join('') || `<p class="muted">아직 등록된 상이 없어요.</p>`;
+  $('tab-content').innerHTML = `
+  <div class="card">
+    <div class="row between"><h2 style="margin:0">상 목록 (${state.awards.length})</h2>
+      ${state.awards.length===0?`<button class="btn btn-gold btn-sm" onclick="seedAwards()">기본 상 13개 불러오기</button>`:''}
+    </div>
+    <div style="margin-top:12px">${list}</div>
+  </div>
+  <div class="card">
+    <h2>상 추가</h2>
+    <label class="fld">상 이름</label>
+    <input id="aw-name" placeholder="예: 분위기 메이커상">
+    <label class="fld">설명 (선택)</label>
+    <input id="aw-desc" placeholder="예: 수업 분위기를 좋게 만들어준 친구">
+    <button class="btn btn-gold full" style="margin-top:14px" onclick="addAward()">추가</button>
+  </div>`;
+}
+async function seedAwards(){
+  const rows = DEFAULT_AWARDS.map((a,i)=>({name:a[0], description:a[1], sort_order:i}));
+  const { error } = await db.from(TABLES.awards).insert(rows);
+  if(error){ toast('불러오기 실패', true); return; }
+  await loadAll(); renderAwards(); toast('기본 상 13개를 불러왔어요.');
+}
+async function addAward(){
+  const name=($('aw-name').value||'').trim();
+  if(!name){ toast('상 이름을 입력하세요.', true); return; }
+  const order = state.awards.length;
+  const { error } = await db.from(TABLES.awards).insert([{name, description:($('aw-desc').value||'').trim(), sort_order:order}]);
+  if(error){ toast('추가 실패', true); return; }
+  await loadAll(); renderAwards(); toast('상을 추가했어요.');
+}
+async function deleteAward(id){
+  if(!confirm('이 상을 삭제할까요? 관련 투표도 함께 삭제돼요.')) return;
+  const { error } = await db.from(TABLES.awards).delete().eq('id',id);
+  if(error){ toast('삭제 실패', true); return; }
+  await loadAll(); renderAwards();
+}
+async function moveAward(i,dir){
+  const j=i+dir; if(j<0||j>=state.awards.length) return;
+  const a=state.awards[i], b=state.awards[j];
+  await Promise.all([
+    db.from(TABLES.awards).update({sort_order:j}).eq('id',a.id),
+    db.from(TABLES.awards).update({sort_order:i}).eq('id',b.id),
+  ]);
+  await loadAll(); renderAwards();
+}
+window.seedAwards=seedAwards; window.addAward=addAward; window.deleteAward=deleteAward; window.moveAward=moveAward;
+
+/* ── 학생 관리 탭 ── */
+function renderStudents(){
+  const list = state.students.map(st=>`
+    <div class="listitem">
+      <div class="grow"><b>${esc(st.name)}</b> <span class="sub">${st.number!=null?st.number+'번':''}</span></div>
+      <button class="btn btn-danger btn-sm" onclick="deleteStudent('${st.id}')">삭제</button>
+    </div>`).join('') || `<p class="muted">아직 등록된 학생이 없어요.</p>`;
+  $('tab-content').innerHTML = `
+  <div class="card">
+    <h2 style="margin-top:0">학생 명단 (${state.students.length})</h2>
+    <div style="margin-top:10px">${list}</div>
+  </div>
+  <div class="card">
+    <h2>한 명 추가</h2>
+    <div class="grid2">
+      <div><label class="fld">이름</label><input id="st-name" placeholder="홍길동"></div>
+      <div><label class="fld">번호 (선택)</label><input id="st-num" type="number" inputmode="numeric" placeholder="1"></div>
+    </div>
+    <button class="btn btn-gold full" style="margin-top:12px" onclick="addStudent()">추가</button>
+  </div>
+  <div class="card">
+    <h2>여러 명 한꺼번에 추가</h2>
+    <p class="muted small">한 줄에 한 명씩. <code class="kbd">번호 이름</code> 또는 <code class="kbd">이름</code> 형식.</p>
+    <textarea id="st-bulk" rows="6" placeholder="1 김민준&#10;2 이서연&#10;3 박지후"></textarea>
+    <button class="btn btn-gold full" style="margin-top:12px" onclick="bulkStudents()">명단 일괄 추가</button>
+  </div>`;
+}
+async function addStudent(){
+  const name=($('st-name').value||'').trim();
+  if(!name){ toast('이름을 입력하세요.', true); return; }
+  const numRaw=($('st-num').value||'').trim();
+  const { error } = await db.from(TABLES.students).insert([{name, number: numRaw?parseInt(numRaw,10):null}]);
+  if(error){ toast('추가 실패', true); return; }
+  await loadAll(); renderStudents(); toast('학생을 추가했어요.');
+}
+async function bulkStudents(){
+  const lines = ($('st-bulk').value||'').split('\n').map(l=>l.trim()).filter(Boolean);
+  if(lines.length===0){ toast('추가할 내용이 없어요.', true); return; }
+  const rows = lines.map(l=>{
+    const m = l.match(/^(\d+)[\s.\)]+(.+)$/);
+    if(m) return { number:parseInt(m[1],10), name:m[2].trim() };
+    return { number:null, name:l };
+  });
+  const { error } = await db.from(TABLES.students).insert(rows);
+  if(error){ toast('일괄 추가 실패', true); return; }
+  await loadAll(); renderStudents(); toast(`${rows.length}명을 추가했어요.`);
+}
+async function deleteStudent(id){
+  if(!confirm('이 학생을 삭제할까요? 관련 투표도 함께 삭제돼요.')) return;
+  const { error } = await db.from(TABLES.students).delete().eq('id',id);
+  if(error){ toast('삭제 실패', true); return; }
+  await loadAll(); renderStudents();
+}
+window.addStudent=addStudent; window.bulkStudents=bulkStudents; window.deleteStudent=deleteStudent;
+
+/* ─────────────────────────────────────────────
+   결과 + 1인1상 알고리즘
+   ───────────────────────────────────────────── */
+
+/* 핵심 계산: 한 학생은 상을 1개만.
+   여러 상에 1위면 '득표가 가장 많은 상'을 받고, 나머지는 차순위 학생에게 넘어감(연쇄 적용). */
+function computeAwards(awards, students, votes){
+  const byId = Object.fromEntries(students.map(s=>[s.id,s]));
+  const order = [...awards].sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
+
+  // 1) 집계
+  const tally={}; order.forEach(a=>tally[a.id]={});
+  votes.forEach(v=>{ if(tally[v.award_id]&&v.candidate_id){ tally[v.award_id][v.candidate_id]=(tally[v.award_id][v.candidate_id]||0)+1; } });
+
+  // 2) 상별 순위 (득표 내림차순, 동점은 번호→이름)
+  const ranking={};
+  order.forEach(a=>{
+    ranking[a.id]=Object.entries(tally[a.id])
+      .map(([cid,c])=>({candidate_id:cid,votes:c}))
+      .filter(x=>x.votes>0)
+      .sort((x,y)=>{
+        if(y.votes!==x.votes) return y.votes-x.votes;
+        const sx=byId[x.candidate_id], sy=byId[y.candidate_id];
+        const nx=(sx&&sx.number!=null)?sx.number:9999, ny=(sy&&sy.number!=null)?sy.number:9999;
+        if(nx!==ny) return nx-ny;
+        return ((sx&&sx.name)||'').localeCompare(((sy&&sy.name)||''));
+      });
+  });
+
+  // 3) 연쇄 배정
+  const ptr={}; order.forEach(a=>ptr[a.id]=0);
+  const tentative=(aid)=>{ const arr=ranking[aid]; return ptr[aid]<arr.length?arr[ptr[aid]].candidate_id:null; };
+  const votesOf=(aid,cid)=>{ const f=ranking[aid].find(x=>x.candidate_id===cid); return f?f.votes:0; };
+
+  let guard=0, max=awards.length*students.length+awards.length+20;
+  while(guard++<max){
+    const winnerAwards={};
+    for(const a of order){ const w=tentative(a.id); if(w)(winnerAwards[w]=winnerAwards[w]||[]).push(a.id); }
+    let conflict=null;
+    for(const cid in winnerAwards){ if(winnerAwards[cid].length>1){ conflict=cid; break; } }
+    if(!conflict) break;
+    const aws=winnerAwards[conflict];
+    let keep=aws[0], keepV=votesOf(keep,conflict);
+    for(const aid of aws){ const v=votesOf(aid,conflict); if(v>keepV){ keep=aid; keepV=v; } }
+    for(const aid of aws){ if(aid!==keep) ptr[aid]++; }
+  }
+
+  // 4) 최종 결과 + 수상자→상 역매핑
+  const wonBy={};
+  const result = order.map(a=>{
+    const w=tentative(a.id);
+    if(w) wonBy[w]=a;
+    return { award:a, winner_id:w, winner:w?byId[w]:null, winner_votes:w?votesOf(a.id,w):0, ranking:ranking[a.id] };
+  });
+
+  // 5) 조정 설명
+  result.forEach(r=>{
+    r.note='';
+    if(!r.winner_id){ r.note='남은 후보가 없어 수상자가 정해지지 않았어요.'; return; }
+    const idx=r.ranking.findIndex(x=>x.candidate_id===r.winner_id);
+    if(idx>0){
+      const higher=r.ranking.slice(0,idx).map(h=>{
+        const nm=(byId[h.candidate_id]||{}).name||'?';
+        const w=wonBy[h.candidate_id];
+        return w&&w.id!==r.award.id ? `${nm}(${h.votes}표)→${w.name}` : `${nm}(${h.votes}표)→조정`;
+      });
+      r.note=`상위 득표자 ${higher.join(', ')} 가 다른 상을 받아, 이 상은 차순위 ${r.winner.name}(${r.winner_votes}표)에게 돌아갔어요.`;
+    }
+  });
+
+  return { result, ranking, byId };
+}
+
+function renderResults(){
+  const voters = new Set(state.votes.map(v=>v.voter_id)).size;
+  const total = state.students.length;
+  const hasData = state.votes.length>0 && state.awards.length>0;
+  let html = `
+  <div class="card">
+    <div class="row between">
+      <h2 style="margin:0">투표 현황</h2>
+      <button class="btn btn-ghost btn-sm" onclick="refreshAdmin()">🔄 새로고침</button>
+    </div>
+    <p style="margin-top:8px"><span class="pill">참여 ${voters} / ${total} 명</span></p>
+  </div>`;
+
+  if(!hasData){
+    html += `<div class="card center"><p class="muted">아직 집계할 투표가 없어요.</p></div>`;
+    $('tab-content').innerHTML=html; return;
+  }
+
+  // 상별 집계 막대 (상위 5명)
+  const order=[...state.awards].sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
+  const tally={}; order.forEach(a=>tally[a.id]={});
+  state.votes.forEach(v=>{ if(tally[v.award_id]&&v.candidate_id) tally[v.award_id][v.candidate_id]=(tally[v.award_id][v.candidate_id]||0)+1; });
+  const byId=Object.fromEntries(state.students.map(s=>[s.id,s]));
+
+  let bars = order.map(a=>{
+    const arr=Object.entries(tally[a.id]).map(([cid,c])=>({cid,c})).sort((x,y)=>y.c-x.c);
+    const maxV=arr.length?arr[0].c:1;
+    const rows=arr.slice(0,5).map((x,i)=>`
+      <div class="bar-row">
+        <span class="nm">${esc((byId[x.cid]||{}).name||'?')}${i===0?'<span class="win-tag">1위</span>':''}</span>
+        <span class="bar-bg"><span class="bar-fill" style="width:${Math.round(x.c/maxV*100)}%"></span></span>
+        <span class="vt">${x.c}표</span>
+      </div>`).join('') || '<p class="muted small">표 없음</p>';
+    return `<div class="result-card"><div class="awn">🏆 ${esc(a.name)}</div>${rows}</div>`;
+  }).join('');
+
+  html += `<div class="card">
+    <div class="row between"><h2 style="margin:0">상별 득표</h2></div>
+    <div style="margin-top:12px">${bars}</div>
+  </div>
+  <div class="card center">
+    <h2 style="margin-top:0">최종 수상자 정하기</h2>
+    <p class="muted small">1인1상 원칙으로 자동 계산해요.</p>
+    <button class="btn btn-gold full" onclick="runFinal()">🏅 1인1상 원칙으로 수상자 결정</button>
+    <div id="final-out" style="margin-top:16px;text-align:left"></div>
+  </div>`;
+  $('tab-content').innerHTML=html;
+}
+
+function runFinal(){
+  const r = computeAwards(state.awards, state.students, state.votes);
+  state.lastResult = r;
+  const out = r.result.map(x=>`
+    <div class="result-card">
+      <div class="awn">🏆 ${esc(x.award.name)}</div>
+      ${x.winner?`<div class="winner">🥇 ${esc(x.winner.name)} <span class="muted" style="font-size:13px">(${x.winner_votes}표)</span></div>`
+                :`<div class="nores">수상자 없음</div>`}
+      ${x.note?`<div class="note">${esc(x.note)}</div>`:''}
+    </div>`).join('');
+  $('final-out').innerHTML = `
+    <div class="row" style="margin-bottom:12px">
+      <button class="btn btn-gold grow" onclick="openCeremony()">🎬 시상식 모드 시작</button>
+      <button class="btn btn-ghost btn-sm" onclick="printResults()">🖨️ 인쇄</button>
+    </div>
+    ${out}`;
+  toast('수상자를 계산했어요!');
+}
+window.renderResults=renderResults; window.runFinal=runFinal;
+
+function printResults(){
+  if(!state.lastResult) return;
+  const cls = (state.settings.class_name||'우리 반');
+  const rows = state.lastResult.result.map(x=>`
+    <tr><td style="padding:8px;border-bottom:1px solid #ddd">${esc(x.award.name)}</td>
+    <td style="padding:8px;border-bottom:1px solid #ddd">${x.winner?esc(x.winner.name)+` (${x.winner_votes}표)`:'-'}</td></tr>`).join('');
+  $('print-area').style.display='block';
+  $('print-area').innerHTML = `<h1 style="font-family:sans-serif">${esc(cls)} 시상식 수상자</h1>
+    <table style="width:100%;border-collapse:collapse;font-family:sans-serif">
+      <tr><th style="text-align:left;padding:8px;border-bottom:2px solid #333">상</th>
+      <th style="text-align:left;padding:8px;border-bottom:2px solid #333">수상자</th></tr>${rows}</table>`;
+  window.print();
+  setTimeout(()=>{ $('print-area').style.display='none'; },500);
+}
+window.printResults=printResults;
+
+/* ─────────────────────────────────────────────
+   시상식 모드 (수상자 한 명씩 공개)
+   ───────────────────────────────────────────── */
+function openCeremony(){
+  if(!state.lastResult){ runFinal(); }
+  state.cerIndex=0; state.cerRevealed=false;
+  $('ceremony').classList.add('show');
+  renderCer();
+}
+function closeCeremony(){ $('ceremony').classList.remove('show'); }
+window.openCeremony=openCeremony; window.closeCeremony=closeCeremony;
+
+function renderCer(){
+  const list=state.lastResult.result;
+  const i=state.cerIndex;
+  const cur=list[i];
+  $('cer-count').textContent = `${i+1} / ${list.length}`;
+  $('cer-step').textContent = `THE ${ordinal(i+1)} AWARD`;
+  $('cer-award').textContent = cur.award.name;
+  $('cer-desc').textContent = cur.award.description||'';
+  $('cer-prev').style.visibility = i===0?'hidden':'visible';
+  if(state.cerRevealed){
+    $('cer-reveal').innerHTML = cur.winner
+      ? `<div class="cer-winner">${esc(cur.winner.name)}</div><div class="cer-votes">🎉 축하합니다 · ${cur.winner_votes}표</div>`
+      : `<div class="cer-winner" style="font-size:40px;color:var(--muted)">수상자 없음</div>`;
+    $('cer-action').textContent = '🔁 다시 공개';
+    $('cer-next').style.visibility = i===list.length-1?'hidden':'visible';
+    if(cur.winner) burstConfetti();
+  } else {
+    $('cer-reveal').innerHTML = `<div style="font-size:64px;opacity:.5">🥁</div>`;
+    $('cer-action').textContent = '두구두구… 공개!';
+    $('cer-next').style.visibility = 'hidden';
+  }
+}
+function ordinal(n){ const s=['TH','ST','ND','RD'],v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
+function cerAction(){ state.cerRevealed=!state.cerRevealed?true:true; if($('cer-action').textContent.includes('다시')){ state.cerRevealed=false; } renderCer(); }
+function cerNext(){ if(state.cerIndex<state.lastResult.result.length-1){ state.cerIndex++; state.cerRevealed=false; renderCer(); } }
+function cerPrev(){ if(state.cerIndex>0){ state.cerIndex--; state.cerRevealed=false; renderCer(); } }
+window.cerAction=cerAction; window.cerNext=cerNext; window.cerPrev=cerPrev;
+
+/* 가벼운 종이꽃 효과 */
+function burstConfetti(){
+  const cv=$('cf-canvas'); const ctx=cv.getContext('2d');
+  cv.width=innerWidth; cv.height=innerHeight;
+  const colors=['#f7d774','#e6b84a','#b08bff','#5ee0a0','#fff7df','#ff9bb3'];
+  const N=140, parts=[];
+  for(let i=0;i<N;i++){ parts.push({
+    x:innerWidth/2+(Math.random()-.5)*120, y:innerHeight*0.42,
+    vx:(Math.random()-.5)*9, vy:Math.random()*-11-4,
+    g:0.28+Math.random()*0.12, s:5+Math.random()*7,
+    c:colors[(Math.random()*colors.length)|0], r:Math.random()*6, vr:(Math.random()-.5)*.4 }); }
+  let t=0;
+  (function frame(){
+    t++; ctx.clearRect(0,0,cv.width,cv.height);
+    parts.forEach(p=>{ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r);
+      ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); ctx.restore(); });
+    if(t<120) requestAnimationFrame(frame); else ctx.clearRect(0,0,cv.width,cv.height);
+  })();
+}
+
+/* ── 시작 ── */
+(function init(){
+  if(!CONFIGURED){ $('warn').classList.remove('hidden'); }
+})();
+
+// ===== APP SCRIPT END =====
+</script>
+</body>
+</html>
